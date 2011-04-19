@@ -384,6 +384,10 @@ module ProcessWanker
 		############################################################################
 
 		def list_clusters()
+			
+			# ensure that at least default cluster exists
+			@config.client.get_cluster("default")
+			
 			puts "clusters:"
 			@config.client.clusters.clusters.each do |cname,cluster|
 				puts " [#{cname}]"
