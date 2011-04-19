@@ -1,0 +1,11 @@
+ProcessWanker is a work-in-progress.
+
+Enough features are implemented for it to be useful.
+
+Docs (not yet complete) are available at:
+
+http://codepuppies.com/~ben/pw
+
+
+(Important note: under more recent versions of Ubuntu running "upstart", you may need to use the upstart_service class)
+
