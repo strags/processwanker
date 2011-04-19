@@ -227,7 +227,7 @@ module ProcessWanker
 					options[:actions] << { :cmd => :debug }
 				end
 			
-				opts.on("--log","Log file (for pw output only)") do |v|
+				opts.on("--log FILE","Log file (for pw output only)") do |v|
 					options[:log_file] = v
         end
         
