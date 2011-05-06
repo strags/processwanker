@@ -132,7 +132,6 @@ module ProcessWanker
 		def load_config(path)
 			ProcessWanker::loaded_config=nil
 			# load(path)
-			debugger
 			config = ERB.new(File.read(path)).result
       eval(config)
 			ProcessWanker::loaded_config
