@@ -12,9 +12,10 @@ require 'etc'
 require 'process_service'
 require 'process_util'
 
-require 'rubygems'
-gem 'ruby-dbus'
-require 'dbus'
+#<BRS> used to require dbus, but upstart doesn't seem to use it in Ubuntu Server
+#require 'rubygems'
+#gem 'ruby-dbus'
+#require 'dbus'
 
 module ProcessWanker
 
