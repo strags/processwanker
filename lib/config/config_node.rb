@@ -115,6 +115,8 @@ module ProcessWanker
 
 	module Config
 
+    require 'erb'
+
 		@@config_path=ENV["PW_CFG"] || "/etc/pw/pw.cfg"
 	
 		def get_config_path()
@@ -129,7 +131,9 @@ module ProcessWanker
 		
 		def load_config(path)
 			ProcessWanker::loaded_config=nil
-			load(path)
+			# load(path)
+			config = ERB.new(File.read(path)).result
+      eval(config)
 			ProcessWanker::loaded_config
 		end
 		module_function			:load_config
