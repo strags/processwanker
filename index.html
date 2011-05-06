@@ -1,1 +1,194 @@
-getting-started.html
+<html>
+<head>
+<link href="prettify/prettify.css" type="text/css" rel="stylesheet" />
+<link href="pretty.css" type="text/css" rel="stylesheet" />
+<link href="960.css" type="text/css" rel="stylesheet" />
+<link href="main.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="prettify/prettify.js"></script>
+	
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function()
+		{
+			prettyPrint();
+		});
+</script>
+</head>
+
+<body id="body">
+<div class="container container_12">
+<div class="grid_10 prefix_1">
+	<div class="header" style="margin-bottom: 30px;">
+		<center>
+			<font size="32px">ProcessWanker</font>
+		</center>
+	</div>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div class="header">
+		ProcessWanker is an application for monitoring and managing services
+		across an entire deployment.
+	</div>
+</div>
+
+<div class="grid_2 prefix_1">
+	<div class="button" onClick="document.location='getting-started.html';">Getting Started</div>
+</div>
+<div class="grid_2">
+	<div class="button" onClick="document.location='reference-config.html';">Config File</div>
+</div>
+<div class="grid_2">
+	<div class="button" onClick="document.location='reference-cmdline.html';">Command line</div>
+</div>
+<div class="grid_2">
+	<div class="button" onClick="document.location='network.html';">Network Setup</div>
+</div>
+<div class="grid_2">
+	<div class="button">Discuss</div>
+</div>
+
+
+
+
+
+<div class="grid_10 prefix_1">
+	<div class="subheader">
+		Getting Started
+	</div>
+	<div>
+<p>We'll start off by looking at how we might use ProcessWanker to control some services on our
+	local machine.</p>
+<p>Start by installing the ProcessWanker gem:</p>
+	</div>
+</div>
+
+<div class="grid_8 prefix_2">
+	<pre class="prettyprint">$ gem install processwanker</pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>Let's make a configuration file. (The default location for a configuration file is
+		<code>/etc/pw/pw.cfg</code>, but you can put it wherever you like).</p>
+		<p>We're going to pretend for now that we have mysql installed, and that
+			it's the only service we wish to control.</p>
+	</div>
+</div>
+
+<div class="grid_8 prefix_2">
+<pre class="prettyprint">
+ProcessWanker::config {
+	daemon {
+		services {
+			process_service("mysql") {
+				start_cmd  "/etc/init.d/mysql start"
+			}
+		}
+	}
+}		
+</pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>Looks simple, right? That's because it is. ProcessWanker takes care of tracking
+			which processes are spawned as a result of executing a shell command, and can
+			reliably monitor and kill them when requested or necessary.</p>
+		<p>It's also worth noting here that although this looks like a custom configuration
+			format, it's actually entirely Ruby. You can write custom code to do all sorts
+			of things!</p>
+		<p>Now, let's start the ProcessWanker daemon.</p>
+	</div>
+</div>
+
+<div class="grid_8 prefix_2">
+	<pre class="prettyprint">$ sudo pw -d -g <i>config-file-location</i></pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>The <code>-d</code> option tells ProcessWanker that this is the <i>daemon</i>
+			process. This is the part of ProcessWanker that runs in the background, performing
+			the monitoring work.</p>
+		<p>The <code>-g</code> option simply specifies the location of the configuration
+			file.</p>
+		<p>Now that we have a ProcessWanker daemon running in the background, we can
+			query and control it, by using the same application:</p>
+	</div>
+</div>
+
+<div class="grid_10 prefix_1">
+<pre class="prettyprint">
+$ pw
+[localhost]
+name                           state                          want-state           tags
+mysql                          up [stable]                    up                   
+</pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>What happened here? Well, since we ran <b>pw</b> with no <code>-d</code> option,
+			it ran as a <i>client</i>, which connected (via SSL) to the running
+			daemon, and asked it for a list of services, and their status.</p>
+		<p>Let's try controlling the process:</p>
+	</div>
+</div>
+
+<div class="grid_10 prefix_1">
+<pre class="prettyprint">
+$ pw --stop mysql
+==[localhost] send :stop to mysql
+[localhost]
+name                           state                          want-state           tags
+mysql                          down                           down                   
+</pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>As you might have guessed, we can also use the <code>--start</code> and <code>--restart</code> options to control running services.</p>
+		<p>ProcessWanker is also flexible in terms of specifying which services to control. For instance:</p>
+	</div>
+</div>
+
+<div class="grid_8 prefix_2">
+	<pre class="prettyprint">$ pw --restart all</pre>
+</div>
+<div class="grid_10 prefix_1">
+	<div>
+		<p>or</p>
+	</div>
+</div>
+<div class="grid_8 prefix_2">
+	<pre class="prettyprint">$ pw --restart "nginx,/^rails/,~rails-foo,tag:db"</pre>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>The previous example is contrived, but it translates as "restart nginx, plus anything
+			that starts with 'rails', <i>except</i> rails-foo, and also restart anything
+			that's tagged with 'db'."</p>
+	</div>
+</div>
+
+<div class="grid_10 prefix_1">
+	<div>
+		<p>Of course, we've only scratched the surface here. ProcessWanker can manage services
+			on multiple clusters of remote machines, almost as easily as it can manage them on
+			a local machine. It can deal with PID files (if you need it to), and you can extend
+			it by defining your own service classes.</p>
+	</div>
+</div>
+
+<!--
+<div class="grid_1 button">Hello</div>
+<div class="grid_12 button">Hello</div>
+-->
+
+
+
+</div>
+</body>
+</html>
