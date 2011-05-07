@@ -7,6 +7,7 @@ body
 
 .button
 {
+	display: 				block;
 	text-align:				center;
 	padding:				5px;
 	border-radius:			5px;
@@ -15,7 +16,8 @@ body
 	color:					#ffffff;
 	text-shadow:			#204020 0 -1px 0;
 	font-size:				16px;
-	cursor:					hand;
+	cursor:					pointer;
+	text-decoration:		none;
 }
 
 .header
