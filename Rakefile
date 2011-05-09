@@ -8,6 +8,6 @@ Echoe.new('processwanker', '0.0.7') do |p|
   p.author         = "Ben Stragnell"
   p.email          = "pw@codepuppies.com"
   p.ignore_pattern = ["tmp/*", "script/*","docs/*","docs/prettify/*"]
-  p.runtime_dependencies = [ "echoe" ]
+  p.runtime_dependencies = [ "echoe", "highline" ]
   p.development_dependencies = []
 end
