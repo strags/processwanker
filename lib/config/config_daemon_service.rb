@@ -54,9 +54,12 @@ module ProcessWanker
 			@config.params[:tags] += t
 		end
 		
-		def depends(&block)
+		def depends(name=nil, &block)
 			@config.params[:dependencies] ||= []
-			@config.params[:dependencies] << ConfigDaemonServiceDependencyBuilder.new.build(@config,[],block)
+			new_dependency = ConfigDaemonServiceDependencyBuilder.new.build(@config,[],block)
+			new_dependency.service = name if (!name.nil? && new_dependency.service.nil?)
+			@config.params[:dependencies] << new_dependency
+
 		end
 		
 		def method_missing(method,*args,&block)

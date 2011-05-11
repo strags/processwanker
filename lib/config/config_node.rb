@@ -94,7 +94,7 @@ module ProcessWanker
 		def build(container,args,block)
 			@config=klass.new(*args)
 			@config.container=container
-			instance_eval(&block)
+			instance_eval(&block) if block
 			@config
 		end
 		
