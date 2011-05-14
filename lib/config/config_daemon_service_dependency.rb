@@ -25,7 +25,8 @@ module ProcessWanker
 		attr_accessor					:service
 		attr_accessor					:up_for
 
-		def initialize()
+		def initialize(service_name=nil)
+			@service=service_name
 			@up_for=3
 		end
 		
