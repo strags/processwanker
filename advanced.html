@@ -156,18 +156,26 @@ tags	"db","pants"
 				<p>Another service (on the same machine) that this service <i>depends</i> on.</p>
 				<p>A service will be prevented from launching (and will be stopped if it is
 					currently running), as long as any one of its dependencies is not "up".</p>
+				<pre class="prettyprint">
+depends "mysql"
+				</pre>
+				<p>
+					You can further configure this dependency with the following syntax:
+				</p>
 				<div>
 					<pre class="prettyprint">
 depends {
    service  "mysql"
-   up_for   5
+   up_for   3
 }
 					</pre>
 				</div>
 				<div>
 				<p>The <code>service</code> field can be a simple service name, or a full service-spec (see the client command-line reference).</p>
 				<p>The <code>up_for</code> defines how many seconds the named service(s) must
-					be "up" (ie. running) for before this service is allowed to start.</p>
+					be "up" (ie. running) for before this service is allowed to start.
+				(default <code>3</code>)
+				</p>
 				</div>
 			</li>
 			<li><code>logfile</code> (default <code>/dev/null</code>)
