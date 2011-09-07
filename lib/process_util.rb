@@ -84,6 +84,8 @@ module ProcessWanker
 	    		next
 	    	rescue Errno::ENOENT => e
 	    		next
+		rescue Exception => e
+			next
 	    	end
 	    end
 	    
