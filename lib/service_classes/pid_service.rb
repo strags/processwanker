@@ -63,7 +63,7 @@ module ProcessWanker
 	  ############################################################################
 	  
 	  def do_stop(attempt_count)
-	    info("do_stop[#{attempt_count}] for #{self.inspect}")
+	    info("do_stop[#{attempt_count}] for #{self.name}")
 	  
 	  	kl=@params[:soft_kill_limit]
 	  	mode = (kl && attempt_count >= kl) ? :hard : :soft
