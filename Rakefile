@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('processwanker', '0.0.12') do |p|
+Echoe.new('processwanker', '0.0.13') do |p|
   p.description    = "Process monitoring and remote control system"
   p.url            = "https://github.com/strags/processwanker"
   p.author         = "Ben Stragnell"
