@@ -25,7 +25,7 @@ module ProcessWanker
 		# walk from the current object up to the root, looking for the named attribute
 		#
 		############################################################################
-		
+
 		def find_attributes(name)
 			r=[]
 			p=self
@@ -44,7 +44,7 @@ module ProcessWanker
 		def get_auth()
 			find_attributes("auth").first
 		end
-		
+
 	end
 
 	############################################################################
@@ -62,7 +62,7 @@ module ProcessWanker
 	############################################################################
 
 	class Deferred
-		
+
 		def initialize(deferred_container,deferred_args,deferred_block,deferred_builder)
 			@deferred_container=deferred_container
 			@deferred_args=deferred_args
@@ -70,7 +70,7 @@ module ProcessWanker
 			@deferred_builder=deferred_builder
 			@deferred_object=nil
 		end
-		
+
 		def method_missing(name,*args)
 			if(!@deferred_object)
 				@deferred_object=@deferred_builder.new.build(
@@ -80,9 +80,9 @@ module ProcessWanker
 			end
 			@deferred_object.send(name,*args)
 		end
-		
+
 	end
-	
+
 	############################################################################
 	#
 	#
@@ -97,16 +97,16 @@ module ProcessWanker
 			instance_eval(&block) if(block)
 			@config
 		end
-		
+
 		def klass
-			cn=self.class.name
+			cn=self.class.name + ""
 			cn.gsub!("Builder","")
 			cn=cn.split("::")[-1]
 			ProcessWanker::const_get(cn)
 		end
-		
+
 	end
-	
+
 	############################################################################
 	#
 	#
@@ -118,17 +118,17 @@ module ProcessWanker
     require 'erb'
 
 		@@config_path=ENV["PW_CFG"] || "/etc/pw/pw.cfg"
-	
+
 		def get_config_path()
 			@@config_path
 		end
 		module_function			:get_config_path
-	
+
 		def set_config_path(path)
 			@@config_path=path
 		end
 		module_function			:set_config_path
-		
+
 		def load_config(path)
 			ProcessWanker::loaded_config=nil
 			# load(path)
@@ -137,9 +137,9 @@ module ProcessWanker
 			ProcessWanker::loaded_config
 		end
 		module_function			:load_config
-		
+
 	end
-	
+
 
 	############################################################################
 	#
@@ -155,6 +155,6 @@ module ProcessWanker
 		@loaded_config=ConfigurationBuilder.new.build(nil,[],block)
 	end
 	module_function			:config
-	
-	
+
+
 end
